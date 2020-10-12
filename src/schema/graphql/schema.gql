@@ -3,11 +3,32 @@ enum CharacterType {
     NPC
 }
 
+enum BookingStatus {
+    PENDING,
+    CONFIRMED,
+    CANCELLED
+}
+
+type Booking {
+    id: Int!
+    customer_id: Int!
+    status: BookingStatus
+    notes: String
+}
+
+type Customer {
+    id: Int!
+    full_name: String!
+    email: String!
+    password: String!
+    phone: String!
+    created_at: String
+}
+
 type User {
     id: Int!
     full_name: String
     created_at: String
-    characters: [Character]
 }
 
 type Character {
@@ -17,7 +38,36 @@ type Character {
     character_type: CharacterType
     created_at: String
     creator: User
+}
 
+type Money {
+    amount: Float!
+    currency_code: String!
+}
+
+type Reservation {
+    id: Int!
+    start_date: String!
+    end_date: String!
+    adults: Int
+    children: Int
+    created_at: String
+    deleted_at: String
+}
+
+input createCustomerInput {
+    full_name: String!
+    email: String!
+    password: String!
+    phone: String!
+}
+
+input updateCustomerInput {
+    id:Int!
+    full_name: String
+    email: String
+    password: String
+    phone: String
 }
 
 input createUserInput {
@@ -43,6 +93,8 @@ input updateCharacterInput {
 type Query{
     user(id: Int!): User
     users: [User]
+    customer(id: Int!): Customer
+    customers: [Customer]
     character(id: Int!): Character
     characters: [Character]
 }
@@ -51,6 +103,9 @@ type Mutation{
     createUser(user: createUserInput!):User
     updateUser(user: updateUserInput!):User
     deleteUser(id: Int!):String
+    createCustomer(user: createCustomerInput!):Customer
+    updateCustomer(user: updateCustomerInput!):Customer
+    deleteCustomer(id: Int!):String
     createCharacter(character: createCharacterInput!): Character
     deleteCharacter(id: Int!): String
     updateCharacter(character: updateCharacterInput!): Character
